@@ -11228,9 +11228,3 @@ footer a:hover, footer a:active, footer a:focus {
 .news-body h6 {
   margin-top: 1.2rem;
 }
-
-@media (min-width: 992px) {
-  .news-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
