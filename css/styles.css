@@ -11196,6 +11196,20 @@ footer a:hover, footer a:active, footer a:focus {
   font-size: 1.4rem;
 }
 
+.news-permalink {
+  font-size: 0.85rem;
+  margin-left: 0.5rem;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  vertical-align: middle;
+}
+
+.news-card:hover .news-permalink,
+.news-card:focus-within .news-permalink {
+  opacity: 1;
+}
+
 .news-date {
   margin-bottom: 0.5rem;
   color: #6c757d;

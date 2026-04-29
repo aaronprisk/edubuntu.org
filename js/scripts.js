@@ -67,6 +67,7 @@ async function loadNews(newsList, newsLoading) {
 
             return {
                 fileName,
+                id: fileNameToId(fileName),
                 title: parsed.meta.title || fileName,
                 date: parsed.meta.date || '',
                 summary: parsed.meta.summary || '',
@@ -90,9 +91,12 @@ async function loadNews(newsList, newsLoading) {
         newsList.innerHTML = validPosts.map((post) => {
             const formattedDate = formatDate(post.date);
             return `
-                <article class="news-card">
+                <article class="news-card" id="${post.id}">
                     <header class="news-header">
-                        <h3 class="news-title">${escapeHtml(post.title)}</h3>
+                        <h3 class="news-title">
+                            ${escapeHtml(post.title)}
+                            <a class="news-permalink" href="#${post.id}" aria-label="Permalink to ${escapeHtml(post.title)}">&#x1F517;</a>
+                        </h3>
                         ${formattedDate ? `<p class="news-date">${formattedDate}</p>` : ''}
                         ${post.summary ? `<p class="news-summary">${escapeHtml(post.summary)}</p>` : ''}
                     </header>
@@ -103,10 +107,54 @@ async function loadNews(newsList, newsLoading) {
                 </article>
             `;
         }).join('');
+
+        activateHashedPost();
+
+        newsList.querySelectorAll('.news-details').forEach((details) => {
+            details.addEventListener('toggle', () => {
+                if (details.open) {
+                    const article = details.closest('article[id]');
+                    if (article) {
+                        history.replaceState(null, '', `#${article.id}`);
+                    }
+                }
+            });
+        });
     } catch (error) {
         newsLoading.textContent = 'Unable to load news right now.';
     }
 }
+
+function fileNameToId(fileName) {
+    return fileName
+        .replace(/\.md$/i, '')
+        .replace(/[\/\\]/g, '-')
+        .replace(/[^a-z0-9-]/gi, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '')
+        .toLowerCase();
+}
+
+function activateHashedPost() {
+    const hash = window.location.hash.slice(1);
+    if (!hash) {
+        return;
+    }
+
+    const target = document.getElementById(hash);
+    if (!target) {
+        return;
+    }
+
+    const details = target.querySelector('.news-details');
+    if (details) {
+        details.open = true;
+    }
+
+    setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+}
+
+window.addEventListener('hashchange', activateHashedPost);
 
 function getSiteBasePath() {
     const pathName = window.location.pathname;
