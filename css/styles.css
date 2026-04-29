@@ -11228,6 +11228,10 @@ footer a:hover, footer a:active, footer a:focus {
   margin: 1rem 0;
 }
 
+.news-table-wrapper {
+  margin: 1rem 0;
+}
+
 .news-body h1,
 .news-body h2,
 .news-body h3,

@@ -147,11 +147,27 @@ function renderMarkdown(content, postUrl) {
     const fallbackHtml = `<p>${escapeHtml(content).replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>')}</p>`;
 
     if (window.marked && typeof window.marked.parse === 'function') {
-        const html = window.marked.parse(content);
-        return rewriteImageUrls(html, postUrl);
+        window.marked.setOptions({ gfm: true });
+        let html = window.marked.parse(content);
+        html = rewriteImageUrls(html, postUrl);
+        html = styleTables(html);
+        return html;
     }
 
     return fallbackHtml;
+}
+
+function styleTables(html) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    doc.querySelectorAll('table').forEach((table) => {
+        table.classList.add('table', 'table-bordered', 'table-striped');
+        const wrapper = doc.createElement('div');
+        wrapper.classList.add('table-responsive', 'news-table-wrapper');
+        table.parentNode.insertBefore(wrapper, table);
+        wrapper.appendChild(table);
+    });
+    return doc.body.innerHTML;
 }
 
 function rewriteImageUrls(html, postUrl) {
@@ -201,7 +217,11 @@ function formatDate(value) {
         return '';
     }
 
-    const date = new Date(value);
+    // YYYY-MM-DD strings are parsed as UTC midnight by the Date constructor,
+    // which shifts the displayed date back one day in timezones behind UTC.
+    // Replace hyphens with slashes so the string is treated as local time.
+    const localValue = String(value).trim().replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$1/$2/$3');
+    const date = new Date(localValue);
     if (Number.isNaN(date.getTime())) {
         return value;
     }
