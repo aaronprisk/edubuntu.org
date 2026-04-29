@@ -42,7 +42,8 @@ window.addEventListener('DOMContentLoaded', event => {
 
 async function loadNews(newsList, newsLoading) {
     try {
-        const indexResponse = await fetch('news/index.json', { cache: 'no-store' });
+        const siteBasePath = getSiteBasePath();
+        const indexResponse = await fetch(`${siteBasePath}news/index.json`, { cache: 'no-store' });
         if (!indexResponse.ok) {
             throw new Error('Could not load news index.');
         }
@@ -56,7 +57,7 @@ async function loadNews(newsList, newsLoading) {
         }
 
         const posts = await Promise.all(files.map(async (fileName) => {
-            const postResponse = await fetch(`news/${fileName}`, { cache: 'no-store' });
+            const postResponse = await fetch(`${siteBasePath}news/${fileName}`, { cache: 'no-store' });
             if (!postResponse.ok) {
                 return null;
             }
@@ -105,6 +106,16 @@ async function loadNews(newsList, newsLoading) {
     } catch (error) {
         newsLoading.textContent = 'Unable to load news right now.';
     }
+}
+
+function getSiteBasePath() {
+    const pathName = window.location.pathname;
+    if (pathName.endsWith('/')) {
+        return pathName;
+    }
+
+    const lastSlashIndex = pathName.lastIndexOf('/');
+    return lastSlashIndex >= 0 ? pathName.slice(0, lastSlashIndex + 1) : '/';
 }
 
 function parseFrontMatter(markdown) {

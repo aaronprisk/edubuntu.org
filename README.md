@@ -3,7 +3,7 @@ Website for Edubuntu Project
 
 ## News posts
 
-The homepage News section is loaded from markdown files.
+The News page (`news.html`) is loaded from markdown files.
 
 1. Create a post in `news/` using this format:
 
@@ -18,4 +18,8 @@ Markdown content goes here.
 ```
 
 2. Add the markdown filename to `news/index.json` in the `posts` array.
-3. Reload the homepage.
+3. Reload `news.html`.
+
+### GitHub Pages note
+
+This repository includes `.nojekyll` so markdown files in `news/` are served as raw files for JavaScript to fetch.
