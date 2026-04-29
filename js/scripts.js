@@ -7,6 +7,8 @@
 // Scripts
 // 
 
+const NEWS_POSTS_PER_PAGE = 10;
+
 window.addEventListener('DOMContentLoaded', event => {
 
     // Activate Bootstrap scrollspy on the main nav element
@@ -76,7 +78,7 @@ async function loadNews(newsList, newsLoading) {
             };
         }));
 
-        const validPosts = posts.filter(Boolean).sort((a, b) => {
+        const allPosts = posts.filter(Boolean).sort((a, b) => {
             const dateA = new Date(a.date || 0).getTime();
             const dateB = new Date(b.date || 0).getTime();
             return dateB - dateA;
@@ -84,47 +86,134 @@ async function loadNews(newsList, newsLoading) {
 
         newsLoading.remove();
 
-        if (validPosts.length === 0) {
+        if (allPosts.length === 0) {
             newsList.innerHTML = '<p class="news-status text-muted">No news posts could be loaded.</p>';
             return;
         }
 
-        const hasHash = Boolean(window.location.hash.slice(1));
+        const totalPages = Math.max(1, Math.ceil(allPosts.length / NEWS_POSTS_PER_PAGE));
+        const pagination = document.getElementById('news-pagination');
 
-        newsList.innerHTML = validPosts.map((post, index) => {
-            const formattedDate = formatDate(post.date);
-            const bylineParts = [formattedDate, post.author ? `By ${escapeHtml(post.author)}` : ''].filter(Boolean);
-            const openByDefault = index === 0 && !hasHash;
-            return `
-                <article class="news-card" id="${post.id}">
-                    <header class="news-header">
-                        <h3 class="news-title">
-                            ${escapeHtml(post.title)}
-                            <a class="news-permalink" href="#${post.id}" aria-label="Permalink to ${escapeHtml(post.title)}">&#x1F517;</a>
-                        </h3>
-                        ${bylineParts.length > 0 ? `<p class="news-meta">${bylineParts.join(' • ')}</p>` : ''}
-                        ${post.summary ? `<p class="news-summary">${escapeHtml(post.summary)}</p>` : ''}
-                    </header>
-                    <details class="news-details"${openByDefault ? ' open' : ''}>
-                        <summary>Read update</summary>
-                        <div class="news-body">${post.html}</div>
-                    </details>
-                </article>
-            `;
-        }).join('');
+        function getActivePage() {
+            const params = new URLSearchParams(window.location.search);
+            const page = parseInt(params.get('page'), 10);
+            return Number.isNaN(page) || page < 1 ? 1 : Math.min(page, totalPages);
+        }
 
+        function renderPage(page) {
+            const start = (page - 1) * NEWS_POSTS_PER_PAGE;
+            const pagePosts = allPosts.slice(start, start + NEWS_POSTS_PER_PAGE);
+            const hasHash = Boolean(window.location.hash.slice(1));
+
+            newsList.innerHTML = pagePosts.map((post, index) => {
+                const formattedDate = formatDate(post.date);
+                const bylineParts = [formattedDate, post.author ? `By ${escapeHtml(post.author)}` : ''].filter(Boolean);
+                const openByDefault = index === 0 && page === 1 && !hasHash;
+                return `
+                    <article class="news-card" id="${post.id}">
+                        <header class="news-header">
+                            <h3 class="news-title">
+                                ${escapeHtml(post.title)}
+                                <a class="news-permalink" href="#${post.id}" aria-label="Permalink to ${escapeHtml(post.title)}">&#x1F517;</a>
+                            </h3>
+                            ${bylineParts.length > 0 ? `<p class="news-meta">${bylineParts.join(' • ')}</p>` : ''}
+                            ${post.summary ? `<p class="news-summary">${escapeHtml(post.summary)}</p>` : ''}
+                        </header>
+                        <details class="news-details"${openByDefault ? ' open' : ''}>
+                            <summary>Read update</summary>
+                            <div class="news-body">${post.html}</div>
+                        </details>
+                    </article>
+                `;
+            }).join('');
+
+            newsList.querySelectorAll('.news-details').forEach((details) => {
+                details.addEventListener('toggle', () => {
+                    if (details.open) {
+                        const article = details.closest('article[id]');
+                        if (article) {
+                            history.replaceState(null, '', `#${article.id}`);
+                        }
+                    }
+                });
+            });
+
+            updatePagination(page);
+        }
+
+        function updatePagination(currentPage) {
+            if (!pagination) {
+                return;
+            }
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            const items = [];
+
+            items.push(`<li class="page-item${currentPage === 1 ? ' disabled' : ''}"><button class="page-link" data-page="${currentPage - 1}" aria-label="Previous">&laquo;</button></li>`);
+
+            const rangeStart = Math.max(1, currentPage - 2);
+            const rangeEnd = Math.min(totalPages, currentPage + 2);
+
+            if (rangeStart > 1) {
+                items.push(`<li class="page-item"><button class="page-link" data-page="1">1</button></li>`);
+                if (rangeStart > 2) {
+                    items.push(`<li class="page-item disabled"><span class="page-link">&hellip;</span></li>`);
+                }
+            }
+            for (let i = rangeStart; i <= rangeEnd; i++) {
+                items.push(`<li class="page-item${i === currentPage ? ' active' : ''}"><button class="page-link" data-page="${i}">${i}</button></li>`);
+            }
+            if (rangeEnd < totalPages) {
+                if (rangeEnd < totalPages - 1) {
+                    items.push(`<li class="page-item disabled"><span class="page-link">&hellip;</span></li>`);
+                }
+                items.push(`<li class="page-item"><button class="page-link" data-page="${totalPages}">${totalPages}</button></li>`);
+            }
+
+            items.push(`<li class="page-item${currentPage === totalPages ? ' disabled' : ''}"><button class="page-link" data-page="${currentPage + 1}" aria-label="Next">&raquo;</button></li>`);
+
+            pagination.innerHTML = `<ul class="pagination justify-content-center">${items.join('')}</ul>`;
+
+            pagination.querySelectorAll('button[data-page]').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const page = parseInt(btn.dataset.page, 10);
+                    if (page < 1 || page > totalPages) {
+                        return;
+                    }
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('page', page);
+                    url.hash = '';
+                    history.pushState(null, '', url.toString());
+                    renderPage(page);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+        }
+
+        // If a hash is present, jump to the page that contains that post.
+        const initialHash = window.location.hash.slice(1);
+        let initialPage = getActivePage();
+        if (initialHash) {
+            const postIndex = allPosts.findIndex((p) => p.id === initialHash);
+            if (postIndex > -1) {
+                initialPage = Math.floor(postIndex / NEWS_POSTS_PER_PAGE) + 1;
+                const url = new URL(window.location.href);
+                url.searchParams.set('page', initialPage);
+                history.replaceState(null, '', url.toString());
+            }
+        }
+
+        renderPage(initialPage);
         activateHashedPost();
 
-        newsList.querySelectorAll('.news-details').forEach((details) => {
-            details.addEventListener('toggle', () => {
-                if (details.open) {
-                    const article = details.closest('article[id]');
-                    if (article) {
-                        history.replaceState(null, '', `#${article.id}`);
-                    }
-                }
-            });
+        window.addEventListener('popstate', () => {
+            renderPage(getActivePage());
+            activateHashedPost();
         });
+
     } catch (error) {
         newsLoading.textContent = 'Unable to load news right now.';
     }
