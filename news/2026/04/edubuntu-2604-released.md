@@ -1,10 +1,10 @@
 ---
-title: Edubuntu 26.04 Released
+title: Edubuntu 26.04 LTS Released
 date: 2026-04-23
-summary: Edubuntu 26.04 "Resolute Raccoon" is released.
+summary: Edubuntu 26.04 LTS "Resolute Raccoon" is released.
 ---
 
-![Edubuntu Banner consisting of graduates thowing caps in an arc](edubuntu-2604-banner.png)
+![Edubuntu Banner consisting of graduates thowing caps in an arc](images/edubuntu-2604-banner.png)
 
 # Edubuntu 26.04 LTS Released: "Resolute Raccoon"
 
