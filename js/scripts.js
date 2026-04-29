@@ -199,7 +199,10 @@ function renderMarkdown(content, postUrl) {
 
     if (window.marked && typeof window.marked.parse === 'function') {
         window.marked.setOptions({ gfm: true });
-        let html = window.marked.parse(content);
+        const alignmentBlocks = [];
+        const contentWithTokens = extractAlignmentBlocks(content, alignmentBlocks);
+        let html = window.marked.parse(contentWithTokens);
+        html = replaceAlignmentBlockTokens(html, alignmentBlocks);
         html = rewriteImageUrls(html, postUrl);
         html = styleTables(html);
         return html;
@@ -269,7 +272,15 @@ function applyImageSizing(image) {
         .map((token) => token.trim())
         .filter(Boolean);
 
+    let imageAlignment = '';
+
     tokens.forEach((token) => {
+        const normalizedToken = token.toLowerCase();
+        if (normalizedToken === 'left' || normalizedToken === 'center' || normalizedToken === 'right') {
+            imageAlignment = normalizedToken;
+            return;
+        }
+
         const percentOrPx = token.match(/^(\d{1,4}(?:\.\d+)?)\s*(%|px)$/i);
         if (percentOrPx) {
             image.style.width = `${percentOrPx[1]}${percentOrPx[2].toLowerCase()}`;
@@ -287,6 +298,11 @@ function applyImageSizing(image) {
             image.style.height = 'auto';
         }
     });
+
+    image.classList.remove('news-image-align-left', 'news-image-align-center', 'news-image-align-right');
+    if (imageAlignment) {
+        image.classList.add(`news-image-align-${imageAlignment}`);
+    }
 }
 
 function looksLikeImageSizeHints(value) {
@@ -298,7 +314,35 @@ function looksLikeImageSizeHints(value) {
         .split(',')
         .map((token) => token.trim())
         .filter(Boolean)
-        .every((token) => /^(\d{1,4}(?:\.\d+)?\s*(%|px)|\d{1,5}\s*x\s*\d{1,5})$/i.test(token));
+        .every((token) => /^(\d{1,4}(?:\.\d+)?\s*(%|px)|\d{1,5}\s*x\s*\d{1,5}|left|center|right)$/i.test(token));
+}
+
+function extractAlignmentBlocks(content, alignmentBlocks) {
+    const blockPattern = /(^|\n)::: ?(left|center|right)\s*\n([\s\S]*?)\n:::(?=\n|$)/gi;
+
+    return content.replace(blockPattern, (match, linePrefix, alignment, blockContent) => {
+        const token = `%%ALIGN_BLOCK_${alignmentBlocks.length}%%`;
+        const parsedBlock = window.marked.parse(blockContent.trim());
+        alignmentBlocks.push({
+            token,
+            alignment: alignment.toLowerCase(),
+            html: parsedBlock,
+        });
+
+        return `${linePrefix}${token}`;
+    });
+}
+
+function replaceAlignmentBlockTokens(html, alignmentBlocks) {
+    let output = html;
+
+    alignmentBlocks.forEach((block) => {
+        const wrapper = `<div class="news-align news-align-${block.alignment}">${block.html}</div>`;
+        output = output.replace(`<p>${block.token}</p>`, wrapper);
+        output = output.replace(block.token, wrapper);
+    });
+
+    return output;
 }
 
 function resolveRelativeUrl(rawUrl, baseUrl) {

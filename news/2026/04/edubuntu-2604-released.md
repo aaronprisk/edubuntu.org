@@ -4,7 +4,7 @@ date: 2026-04-23
 summary: Edubuntu 26.04 LTS "Resolute Raccoon" is released.
 ---
 
-![Edubuntu Banner consisting of graduates thowing caps in an arc|75%](images/edubuntu-2604-banner.png)
+![Edubuntu Banner consisting of graduates thowing caps in an arc|center,75%](images/edubuntu-2604-banner.png)
 
 # Edubuntu 26.04 LTS Released: "Resolute Raccoon"
 
@@ -47,7 +47,7 @@ The Edubuntu Installer and Menu Administration tools have been completely **rewr
 - **Improved account handling:** Non-user/system accounts are filtered out so only real student and staff accounts appear in the administrative interface
 - **Improved UI Polish:** Refined GTK and Qt layouts, improved spacing, and launch fixes for better day-to-day usability
 
-![Screenshot From 2026-04-22 14-11-10|800x750, 50%](images/b2dcb05231b97e836cdc39162490d01d3bc39b35.jpeg)
+![Screenshot From 2026-04-22 14-11-10|center,800x750,50%](images/b2dcb05231b97e836cdc39162490d01d3bc39b35.jpeg)
 
 
 ### Applications & Content Tools

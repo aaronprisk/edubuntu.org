@@ -11242,6 +11242,37 @@ footer a:hover, footer a:active, footer a:focus {
   margin: 1rem 0;
 }
 
+.news-image-align-left {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.news-image-align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.news-image-align-right {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.news-align {
+  margin: 1rem 0;
+}
+
+.news-align-left {
+  text-align: left;
+}
+
+.news-align-center {
+  text-align: center;
+}
+
+.news-align-right {
+  text-align: right;
+}
+
 .news-table-wrapper {
   margin: 1rem 0;
 }
