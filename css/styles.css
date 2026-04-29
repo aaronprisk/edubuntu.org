@@ -11220,6 +11220,14 @@ footer a:hover, footer a:active, footer a:focus {
   margin-top: 0.85rem;
 }
 
+.news-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
 .news-body h1,
 .news-body h2,
 .news-body h3,

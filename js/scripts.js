@@ -70,7 +70,7 @@ async function loadNews(newsList, newsLoading) {
                 title: parsed.meta.title || fileName,
                 date: parsed.meta.date || '',
                 summary: parsed.meta.summary || '',
-                html: renderMarkdown(parsed.content),
+                html: renderMarkdown(parsed.content, `${siteBasePath}news/${fileName}`),
             };
         }));
 
@@ -143,12 +143,57 @@ function parseFrontMatter(markdown) {
     };
 }
 
-function renderMarkdown(content) {
+function renderMarkdown(content, postUrl) {
+    const fallbackHtml = `<p>${escapeHtml(content).replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>')}</p>`;
+
     if (window.marked && typeof window.marked.parse === 'function') {
-        return window.marked.parse(content);
+        const html = window.marked.parse(content);
+        return rewriteImageUrls(html, postUrl);
     }
 
-    return `<p>${escapeHtml(content).replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>')}</p>`;
+    return fallbackHtml;
+}
+
+function rewriteImageUrls(html, postUrl) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const images = doc.querySelectorAll('img');
+
+    images.forEach((image) => {
+        const rawSrc = image.getAttribute('src');
+        const resolvedSrc = resolveRelativeUrl(rawSrc, postUrl);
+        if (resolvedSrc) {
+            image.setAttribute('src', resolvedSrc);
+        }
+
+        image.setAttribute('loading', 'lazy');
+        image.classList.add('news-image');
+    });
+
+    return doc.body.innerHTML;
+}
+
+function resolveRelativeUrl(rawUrl, baseUrl) {
+    if (!rawUrl) {
+        return '';
+    }
+
+    const trimmedUrl = rawUrl.trim();
+    if (/^(javascript|data):/i.test(trimmedUrl)) {
+        return '';
+    }
+
+    try {
+        // Make `images/...` in posts always resolve to the shared news/images folder.
+        if (trimmedUrl.startsWith('images/')) {
+            const siteBasePath = getSiteBasePath();
+            return new URL(`news/${trimmedUrl}`, window.location.origin + siteBasePath).toString();
+        }
+
+        return new URL(trimmedUrl, window.location.origin + baseUrl).toString();
+    } catch (error) {
+        return trimmedUrl;
+    }
 }
 
 function formatDate(value) {
