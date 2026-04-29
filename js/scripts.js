@@ -232,9 +232,70 @@ function rewriteImageUrls(html, postUrl) {
 
         image.setAttribute('loading', 'lazy');
         image.classList.add('news-image');
+        applyImageSizing(image);
     });
 
     return doc.body.innerHTML;
+}
+
+function applyImageSizing(image) {
+    const alt = image.getAttribute('alt') || '';
+    const title = image.getAttribute('title') || '';
+    const hints = [];
+
+    const pipeIndex = alt.lastIndexOf('|');
+    if (pipeIndex > -1) {
+        const candidate = alt.slice(pipeIndex + 1).trim();
+        if (looksLikeImageSizeHints(candidate)) {
+            hints.push(candidate);
+            image.setAttribute('alt', alt.slice(0, pipeIndex).trim());
+        }
+    }
+
+    if (looksLikeImageSizeHints(title)) {
+        hints.push(title.trim());
+        image.removeAttribute('title');
+    }
+
+    if (hints.length === 0) {
+        return;
+    }
+
+    const tokens = hints
+        .flatMap((hint) => hint.split(','))
+        .map((token) => token.trim())
+        .filter(Boolean);
+
+    tokens.forEach((token) => {
+        const percentOrPx = token.match(/^(\d{1,4}(?:\.\d+)?)\s*(%|px)$/i);
+        if (percentOrPx) {
+            image.style.width = `${percentOrPx[1]}${percentOrPx[2].toLowerCase()}`;
+            image.style.height = 'auto';
+            return;
+        }
+
+        const dimensions = token.match(/^(\d{1,5})\s*x\s*(\d{1,5})$/i);
+        if (dimensions) {
+            const width = dimensions[1];
+            const height = dimensions[2];
+            image.setAttribute('width', width);
+            image.setAttribute('height', height);
+            image.style.width = `${width}px`;
+            image.style.height = 'auto';
+        }
+    });
+}
+
+function looksLikeImageSizeHints(value) {
+    if (!value) {
+        return false;
+    }
+
+    return value
+        .split(',')
+        .map((token) => token.trim())
+        .filter(Boolean)
+        .every((token) => /^(\d{1,4}(?:\.\d+)?\s*(%|px)|\d{1,5}\s*x\s*\d{1,5})$/i.test(token));
 }
 
 function resolveRelativeUrl(rawUrl, baseUrl) {
