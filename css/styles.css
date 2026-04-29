@@ -11168,3 +11168,69 @@ footer a:hover, footer a:active, footer a:focus {
     max-width: 17rem;
   }
 }
+
+.news-section {
+  background-color: #f8f9fa;
+}
+
+.news-status {
+  margin-bottom: 1rem;
+}
+
+.news-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.news-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+}
+
+.news-title {
+  margin-bottom: 0.25rem;
+  font-size: 1.4rem;
+}
+
+.news-date {
+  margin-bottom: 0.5rem;
+  color: #6c757d;
+}
+
+.news-summary {
+  margin-bottom: 0;
+  color: #495057;
+}
+
+.news-details {
+  margin-top: 1rem;
+}
+
+.news-details summary {
+  cursor: pointer;
+  color: #a30b00ff;
+  font-weight: 600;
+}
+
+.news-body {
+  margin-top: 0.85rem;
+}
+
+.news-body h1,
+.news-body h2,
+.news-body h3,
+.news-body h4,
+.news-body h5,
+.news-body h6 {
+  margin-top: 1.2rem;
+}
+
+@media (min-width: 992px) {
+  .news-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
