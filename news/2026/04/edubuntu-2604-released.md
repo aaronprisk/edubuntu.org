@@ -4,11 +4,11 @@ date: 2026-04-23
 summary: Edubuntu 26.04 LTS "Resolute Raccoon" is released.
 ---
 
-![Edubuntu Banner consisting of graduates thowing caps in an arc](images/edubuntu-2604-banner.png)
+![Edubuntu Banner consisting of graduates thowing caps in an arc|75%](images/edubuntu-2604-banner.png)
 
 # Edubuntu 26.04 LTS Released: "Resolute Raccoon"
 
-We are pleased to announce the release of **Edubuntu 26.04 LTS**, codenamed "Resolute Raccoon." This Long-Term Support release provides stability and reliability for educational institutions and learning environments worldwide, with **3 years of support until April 2029**.
+We are excited to announce the release of **Edubuntu 26.04 LTS**, codenamed "Resolute Raccoon." This Long-Term Support release provides stability and reliability for educational institutions and learning environments worldwide, with **3 years of support until April 2029**.
 
 Edubuntu 26.04 LTS represents the culmination of development across our 24.04 LTS, 24.10, 25.04, and 25.10 releases. Each interim release brought incremental improvements and community feedback that shaped this stable LTS foundation. With comprehensive tooling for education across all age groups, this release is designed to serve schools, educators, and learners seeking accessible, high-quality free software.
 
@@ -47,27 +47,34 @@ The Edubuntu Installer and Menu Administration tools have been completely **rewr
 - **Improved account handling:** Non-user/system accounts are filtered out so only real student and staff accounts appear in the administrative interface
 - **Improved UI Polish:** Refined GTK and Qt layouts, improved spacing, and launch fixes for better day-to-day usability
 
+![Screenshot From 2026-04-22 14-11-10|800x750, 50%](images/b2dcb05231b97e836cdc39162490d01d3bc39b35.jpeg)
+
+
 ### Applications & Content Tools
 
 **Email & Communication:**
+
 - **Thunderbird** replaces Geary as the default email, calendar, and contacts suite, providing better compatibility with Microsoft 365 accounts (widely used in educational institutions)
 
 **Media & Entertainment:**
+
 - **GNOME Showtime** replaces Totem as the default video player, offering improved codec support and interface consistency
 - **Rhythmbox** replaces GNOME Music (which ceased upstream development), providing a reliable music library manager for educational content
 - **Foliate:** Modern GTK4 e-book reader for digital learning materials, supporting EPUB and PDF formats for classroom-distributed content
 
 **News & Information:**
+
 - **Paperboy:** GTK4/Libadwaita news reader application, included for secondary (Middle/High School) and tertiary (College/University) education. Provides structured access to educational news and current events for classroom discussion
 
 **STEM & Professional Tools:**
+
 - **Arduino IDE:** Included for secondary and tertiary students learning embedded systems and robotics
 - **Raspberry Pi Imager:** Included for those working with Raspberry Pi projects
 - **GChemPaint:** 2D chemical structure editor for secondary and tertiary chemistry education
 
 **Productivity & Note-Taking:**
-- **GNOME Notes (Bijiben)** as the default note-taking application, replacing Gnote for better integration with GNOME desktop features and more active upstream development
 
+- **GNOME Notes (Bijiben)** as the default note-taking application, replacing Gnote for better integration with GNOME desktop features and more active upstream development
 **Extensions & Customization:**
 - **Alphabetical App Grid GNOME Shell Extension** updated to version 44.0 with full support for GNOME 50
 
@@ -75,7 +82,6 @@ The Edubuntu Installer and Menu Administration tools have been completely **rewr
 
 - **Removed GTK 2 Support:** Several GTK 2 packages have been removed (including chemtool), as GTK 2 is no longer supported in upstream Debian, improving system cleanliness and security
 - **Artha Removal:** The offline thesaurus (Artha) has been removed as it is no longer maintained upstream; we encourage online reference sources like Wiktionary for classroom use
-
 
 ---
 
@@ -109,6 +115,7 @@ Edubuntu 26.04 LTS is built around practical classroom deployment, with software
 Edubuntu 26.04 LTS has similar system requirements to Ubuntu Desktop 26.04 LTS:
 
 ### Minimum Specifications
+
 - **Processor:** 2 GHz dual-core processor or equivalent
 - **RAM:** 4 GB minimum (8 GB recommended)
 - **Storage:** 30 GB for standard installation, 15 GB for minimal installation
@@ -116,6 +123,7 @@ Edubuntu 26.04 LTS has similar system requirements to Ubuntu Desktop 26.04 LTS:
 - **Bootable Media:** USB drive or DVD
 
 ### For Raspberry Pi 5
+
 - **Storage:** Minimum 64 GB SD card
 - **Bootloader:** EEPROM version 11 FEB 2025 or later (required for boot compatibility)
 
@@ -132,7 +140,7 @@ Edubuntu 26.04 LTS has similar system requirements to Ubuntu Desktop 26.04 LTS:
 ### When Upgrades Are Enabled
 
 - **From interim releases (such as 25.10):** Upgrades to 26.04 LTS are typically enabled shortly after release, once initial stability checks are complete.
-- **From 24.04 LTS:** LTS-to-LTS upgrades are typically enabled after the first point release (**26.04.1**).
+- **From 24.04 LTS:** LTS-to-LTS upgrades are typically enabled after the first point release (**26.04.1**) due in August 2026.
 
 As with Ubuntu Desktop, upgrade availability can be staged, so some systems may receive the prompt later than others.
 
@@ -145,7 +153,9 @@ This is **not supported** by the Edubuntu project and is intended only for exper
 If you still choose to proceed, launch the release upgrader in development mode:
 
 ```bash
+
 update-manager -d
+
 ```
 
 Proceed only after taking a full backup and ensuring you can recover the system if the upgrade fails.
@@ -155,12 +165,15 @@ Proceed only after taking a full backup and ensuring you can recover the system 
 ## Known Issues
 
 ### Edubuntu-Specific
+
 - The Ubuntu welcome app branding does not match Edubuntu. We're working on ways to resolve this issue.
 
 ### Raspberry Pi 5
+
 - Requires a newer EEPROM/bootloader version (11 FEB 2025 or later) to boot this release. Earlier versions will be unable to boot, and upgrades will be blocked for safety.
 
 ### General Notes
+
 - As Edubuntu is based on Ubuntu Desktop, known issues can be found in the official [Ubuntu 26.04 LTS Release Notes](https://documentation.ubuntu.com/release-notes/26.04/)
 - Individual applications included with Edubuntu may have their own known issues. Please consult upstream release notes for those applications before filing bug reports
 
@@ -169,6 +182,7 @@ Proceed only after taking a full backup and ensuring you can recover the system 
 ## Support Scope
 
 Our support covers:
+
 - Educational and instructional packages we include
 - Edubuntu-specific utilities (Edubuntu Installer, Edubuntu Menu)
 - GNOME Shell extensions we provide (Alphabetical App Grid)
@@ -180,13 +194,16 @@ The GNOME desktop environment is maintained by the Ubuntu Desktop team. Most app
 ## How to Contact or Participate
 
 ### Community Forums & Discussion
+
 - [Ubuntu Discourse - Edubuntu Community](https://discourse.ubuntu.com/c/flavors/edubuntu/)
 - [Ubuntu Discourse - Support and Help](https://discourse.ubuntu.com/c/support-and-help/)
 
 ### Chat
+
 - [Matrix Chat - #edubuntu:ubuntu.com](https://matrix.to/#/#edubuntu:ubuntu.com)
 
 ### Social Media
+
 - [Twitter/X (@edubuntuproject)](https://twitter.com/edubuntuproject)
 - [Mastodon (@edubuntu@ubuntu.social)](https://ubuntu.social/@edubuntu)
 
@@ -195,6 +212,7 @@ The GNOME desktop environment is maintained by the Ubuntu Desktop team. Most app
 ## Support Our Project
 
 ### Edubuntu Merchandise
+
 We have an official merchandise shop to support ongoing development. Browse and purchase t-shirts, coffee mugs, hats, teddy bears, and more at [edubuntu.myspreadshop.com](https://edubuntu.myspreadshop.com/). Commissions from merchandise sales directly support the project.
 
 ---
@@ -203,9 +221,12 @@ We have an official merchandise shop to support ongoing development. Browse and 
 
 Huge thanks for this release go to:
 
-- **Aaron Prisk:** Website and ongoing maintenance
-- **Jeremy Bicha:** GNOME Desktop guidance and application suggestions
-- **Oliver Grawert:** Project founder and continued encouragement
-- **Jonny Eickmeyer:** Testing and application selection advisor
-- **Erich Eickmeyer:** Technical leadership and merchandise store management
-- **Amy Eickmeyer:** Project leadership and vision
+- **Aaron Prisk**: Website and ongoing maintenance
+- **Jeremy Bicha**: GNOME Desktop guidance and application suggestions
+- **Oliver Grawert**: Project founder and continued encouragement
+- **Utkarsh Gupta**: Ubuntu Release Team support and collaboration
+- **Florent "Skia" Jacquet**: Ubuntu Release Team support and collaboration
+- **Michael Hudson-Doyle**: Ubuntu Release Team support and collaboration
+- **Jonny Eickmeyer**: Testing and application selection advisor
+- **Erich Eickmeyer**: Technical leadership and merchandise store management
+- **Amy Eickmeyer**: Project leadership and vision
