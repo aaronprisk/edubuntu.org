@@ -88,8 +88,11 @@ async function loadNews(newsList, newsLoading) {
             return;
         }
 
-        newsList.innerHTML = validPosts.map((post) => {
+        const hasHash = Boolean(window.location.hash.slice(1));
+
+        newsList.innerHTML = validPosts.map((post, index) => {
             const formattedDate = formatDate(post.date);
+            const openByDefault = index === 0 && !hasHash;
             return `
                 <article class="news-card" id="${post.id}">
                     <header class="news-header">
@@ -100,7 +103,7 @@ async function loadNews(newsList, newsLoading) {
                         ${formattedDate ? `<p class="news-date">${formattedDate}</p>` : ''}
                         ${post.summary ? `<p class="news-summary">${escapeHtml(post.summary)}</p>` : ''}
                     </header>
-                    <details class="news-details">
+                    <details class="news-details"${openByDefault ? ' open' : ''}>
                         <summary>Read update</summary>
                         <div class="news-body">${post.html}</div>
                     </details>
