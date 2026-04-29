@@ -70,6 +70,7 @@ async function loadNews(newsList, newsLoading) {
                 id: fileNameToId(fileName),
                 title: parsed.meta.title || fileName,
                 date: parsed.meta.date || '',
+                author: parsed.meta.author || '',
                 summary: parsed.meta.summary || '',
                 html: renderMarkdown(parsed.content, `${siteBasePath}news/${fileName}`),
             };
@@ -92,6 +93,7 @@ async function loadNews(newsList, newsLoading) {
 
         newsList.innerHTML = validPosts.map((post, index) => {
             const formattedDate = formatDate(post.date);
+            const bylineParts = [formattedDate, post.author ? `By ${escapeHtml(post.author)}` : ''].filter(Boolean);
             const openByDefault = index === 0 && !hasHash;
             return `
                 <article class="news-card" id="${post.id}">
@@ -100,7 +102,7 @@ async function loadNews(newsList, newsLoading) {
                             ${escapeHtml(post.title)}
                             <a class="news-permalink" href="#${post.id}" aria-label="Permalink to ${escapeHtml(post.title)}">&#x1F517;</a>
                         </h3>
-                        ${formattedDate ? `<p class="news-date">${formattedDate}</p>` : ''}
+                        ${bylineParts.length > 0 ? `<p class="news-meta">${bylineParts.join(' • ')}</p>` : ''}
                         ${post.summary ? `<p class="news-summary">${escapeHtml(post.summary)}</p>` : ''}
                     </header>
                     <details class="news-details"${openByDefault ? ' open' : ''}>

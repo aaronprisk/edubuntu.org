@@ -11,6 +11,7 @@ The News page (`news.html`) is loaded from markdown files.
 ---
 title: Your post title
 date: YYYY-MM-DD
+author: Author Name
 summary: Short one-line summary
 ---
 

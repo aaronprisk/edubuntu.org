@@ -11210,7 +11210,8 @@ footer a:hover, footer a:active, footer a:focus {
   opacity: 1;
 }
 
-.news-date {
+.news-date,
+.news-meta {
   margin-bottom: 0.5rem;
   color: #6c757d;
 }

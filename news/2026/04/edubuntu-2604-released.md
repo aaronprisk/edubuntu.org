@@ -1,6 +1,7 @@
 ---
 title: Edubuntu 26.04 LTS Released
 date: 2026-04-23
+author: Amy Eickmeyer & Erich Eickmeyer
 summary: Edubuntu 26.04 LTS "Resolute Raccoon" is released.
 ---
 
