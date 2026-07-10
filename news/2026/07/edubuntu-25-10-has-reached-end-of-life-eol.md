@@ -1,3 +1,11 @@
+---
+title: Edubuntu 25.10 has reached End-Of-Life (EOL)
+date: 2026-07-09
+author: Amy Eickmeyer & Erich Eickmeyer
+summary: Edubuntu 25.10 has reached End-Of-Life (EOL)
+---
+# Edubuntu 25.10 has reached End-Of-Life (EOL)
+
 As of July 9, 2026, all flavors of Ubuntu 25.10, including Edubuntu 25.10, codenamed "Questing Quokka", have reached end-of-life (EOL). There will be no more updates of any kind, including security updates, for this release of Ubuntu.
 
 If you have not already done so, please upgrade to Edubuntu 26.04 LTS via the instructions [provided here](https://ubuntu.com/desktop/docs/en/latest/how-to/upgrade-ubuntu-desktop/). If you do not do so as soon as possible, you will lose the ability without additional advanced configuration.
