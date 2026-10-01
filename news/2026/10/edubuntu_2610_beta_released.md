@@ -5,6 +5,8 @@ author: Amy Eickmeyer & Erich Eickmeyer
 summary: Edubuntu 26.10 Beta Released (EOL)
 ---
 
+![Edubuntu Banner consisting of graduates thowing caps in an arc|center,75%](images/edubuntu_2610_beta_banner.png)
+
 # Edubuntu 26.10 Beta Released
 
 The Edubuntu Council (Amy and Erich Eickmeyer) is pleased to announce Edubuntu 26.10 Beta, codenamed “Stonking Stingray”. While it is free of any showstopper installer bugs and is representative of what will be the final release, bugs will be found within.
