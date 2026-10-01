@@ -2,7 +2,7 @@
 title: Edubuntu 26.10 Beta Released
 date: 2026-10-01
 author: Amy Eickmeyer & Erich Eickmeyer
-summary: Edubuntu 26.10 Beta Released (EOL)
+summary: Edubuntu 26.10 Beta Released
 ---
 
 ![Edubuntu Banner consisting of graduates thowing caps in an arc|center,75%](images/edubuntu_2610_beta_banner.png)
