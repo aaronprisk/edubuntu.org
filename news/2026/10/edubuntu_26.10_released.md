@@ -9,7 +9,7 @@ summary: Edubuntu 26.10 Released
 
 # Edubuntu 26.10 Released: "Stonking Stingray"
 
-The Edubuntu Council (@amypenguin and @eeickmeyer) is pleased to announce the release of **Edubuntu 26.10**, codenamed "Stonking Stingray." This interim release builds on the foundation of our 26.04 LTS release, bringing newer software, refinements to the Edubuntu Installer and Menu Administration tools, and more resources for music and creative learning. It is supported for **9 months, until July 2027**.
+The Edubuntu Council is pleased to announce the release of **Edubuntu 26.10**, codenamed "Stonking Stingray." This interim release builds on the foundation of our 26.04 LTS release, bringing newer software, refinements to the Edubuntu Installer and Menu Administration tools, and more resources for music and creative learning. It is supported for **9 months, until July 2027**.
 
 Edubuntu 26.10 is a great fit for educators and administrators who want the latest desktop technology and are comfortable upgrading at each release. Institutions that prefer long-term stability should continue to use **Edubuntu 26.04 LTS**, which is supported until April 2029.
 
